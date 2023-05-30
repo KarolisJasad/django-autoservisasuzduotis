@@ -78,8 +78,6 @@ class Uzsakymas(models.Model):
         return reverse("uzsakymas_detail", kwargs={"pk": self.pk})
 
 class UzsakymoEilute(models.Model):
-    count = models.IntegerField(_("count"))
-    total_price = models.FloatField(_("total_price"))
     paslauga = models.ForeignKey(
         Paslauga,
         verbose_name=_("paslaugos"),
@@ -92,9 +90,10 @@ class UzsakymoEilute(models.Model):
         on_delete=models.CASCADE,
         related_name='uzsakymoEilutes'
         )
+    count = models.IntegerField(_("count"))
+    total_price = models.FloatField(_("total_price"))
 
     class Meta:
-        ordering = ['paslauga']
         verbose_name = _("uzsakymoEilute")
         verbose_name_plural = _("uzsakymoEilutes")
 
