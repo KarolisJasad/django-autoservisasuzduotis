@@ -121,10 +121,16 @@ class UzsakymoEilute(models.Model):
             self.price = self.paslauga.price
             self.total_price = self.price * self.count
         super().save(*args, **kwargs)
+    
+    @staticmethod
+    def calculate_total_price(orders):
+        total_price = sum(order.total_price for order in orders)
+        return total_price
 
     def __str__(self):
         return f'Paslauga: {self.paslauga}. Paslaugų kiekis: {self.count}. {self.new_line} Užsakymas: {self.uzsakymas} {self.new_line} Bendra kaina: {self.total_price}'
 
     def get_absolute_url(self):
         return reverse("uzsakymoEilute_detail", kwargs={"pk": self.pk})
+
 
