@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Welcome to {{ block.super }}{% endblock title %}
+{% block content %}
+<div class="container">
+  <div class="box">
+    <div class="box-title">
+      <h1>PTU12 Autoservisas</h1>
+    </div>
+    <div class="box-content">
+      <p>Welcome to car paradise!</p>
+      <p>Info about us:</p>
+      <ul>
+        <li><strong>Total users:</strong> {{ num_users }}</li>
+        <li><strong>Number of cars:</strong> {{ num_cars }}</li>
+        <li><strong>Number of services:</strong> {{ num_services }}</li>
+        <li><strong>Completed orders:</strong> {{ completed_orders }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -37,22 +37,22 @@ class UzsakymoEiluteInline(admin.TabularInline):
 
 
 class UzsakymasAdmin(admin.ModelAdmin):
-    list_display = ('order_date', 'car', 'price')
+    list_display = ('order_date', 'car', 'price', 'status')
     list_filter = ('order_date', 'car')
+    list_editable = ('status', )
     fieldsets = (
-        (_('Order_info'), {'fields': ('order_date', 'price', 'car')}),
+        (_('Order_info'), {'fields': ('order_date', 'price', 'car', 'status')}),
     )
     inlines = (UzsakymoEiluteInline, )
 
 class UzsakymoEiluteAdmin(admin.ModelAdmin):
-    list_display = ('paslauga', 'uzsakymas')
+    list_display = ('paslauga', 'count','total_price', 'uzsakymas')
     list_filter = ('paslauga', )
     fieldsets = (
         (_('Uzsakymo eilute'), {'fields': ('paslauga', 'uzsakymas', 'count', 'total_price')}),
     )
     
     
-
 admin.site.register(models.AutomobilioModelis, AutomobiliaiAdmin)
 admin.site.register(models.Automobilis, KlientuAutomobiliaiAdmin)
 admin.site.register(models.Uzsakymas, UzsakymasAdmin)

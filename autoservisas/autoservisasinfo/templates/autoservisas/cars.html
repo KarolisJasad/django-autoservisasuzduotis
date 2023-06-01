@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Cars in {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>Cars</h1>
+{% if automobilis_list %}
+    <ul>
+        {% for car in automobilis_list %}
+            <li><a href="{% url 'car_detail' pk=car.pk %}">{{ car }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No cars available.</p>
+{% endif %}
+{% endblock content %}

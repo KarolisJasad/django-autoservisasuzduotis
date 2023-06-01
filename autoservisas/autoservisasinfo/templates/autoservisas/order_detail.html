@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Orders{{ block.super }}{% endblock title %}
+{% block content %}
+<h1> {{ object.paslauga.name }} {{ object.paslauga.price }}€</h1>
+<p>Order(s) info:</p>
+<ul>
+    {% for uzsakymo_eilute in object.uzsakymas.uzsakymoEilutes.all %}
+        <li>
+            <ul>
+                <li>Client's name: {{ uzsakymo_eilute.uzsakymas.car.client_name }} {{ uzsakymo_eilute.uzsakymas.car.client_surname }}</li>
+                <li>Order date: {{ uzsakymo_eilute.uzsakymas.order_date }}</li>
+                <li>Order count: {{ uzsakymo_eilute.count }}</li>
+                <li>Car model: {{ uzsakymo_eilute.uzsakymas.car }}</li>
+                <li>Status: {{ uzsakymo_eilute.uzsakymas.get_status_display }}</li>
+                <li>Total price: {{ uzsakymo_eilute.total_price }}€</li>
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>{# nematoma dalis #}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PTU12 Autoservisas{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<header>
+    <ul class="nav">
+        <li class="logo">&#128663; PTU12 Autoservisas</li>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'cars' %}">Cars</a></li>
+        <li><a href="{% url 'order_list' %}">Orders</a></li>
+    </ul>
+</header>
+<main>{% block content %}
+{% endblock content %}</main>
+<footer><p>&copy; 2023 <a href="https://discord.gg/QAUWnqGF" target="_blank">PTU12 Team (Karolis J)</a></p></footer>
+</body>
+</html>
