@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %}Welcome to {{ block.super }}{% endblock title %}
 {% block content %}
 <div class="container">
@@ -14,6 +15,7 @@
         <li><strong>Number of cars:</strong> {{ num_cars }}</li>
         <li><strong>Number of services:</strong> {{ num_services }}</li>
         <li><strong>Completed orders:</strong> {{ completed_orders }}</li>
+        <li>You're visiting us for the <strong>{{ num_visits|ordinal }}</strong> time</li>
       </ul>
     </div>
   </div>

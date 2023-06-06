@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Cars in {{ block.super }}{% endblock title %}
 {% block content %}
 <h1>Cars</h1>
+{% include 'includes/search.html' %}
 {% if automobilis_list %}
-    <ul>
-        {% for car in automobilis_list %}
-            <li><a href="{% url 'car_detail' pk=car.pk %}">{{ car }}</a></li>
-        {% endfor %}
-    </ul>
+<ul class="car-list">
+    {% for car in automobilis_list %}
+        <li>
+        <a href="{% url 'car_detail' car.pk %}">
+            <div class="car-item">
+                {% if car.car_image %}
+                    <img class="car-image" src="{{ car.car_image.url }}">
+                    <p><a href="{% url 'car_detail' pk=car.pk %}">{{ car }}</a></p>
+                {% else %}
+                    <img class="car-image" src="{% static 'library/img/default_car.jpg' %}">
+                    <p><a href="{% url 'car_detail' pk=car.pk %}">{{ car }}</a></p>
+                {% endif %}
+            </div>
+        </a> 
+    </li>
+    {% endfor %}
+</ul>
+{% with automobilis_list as page_obj %}
+    {% include 'includes/paginator_pages.html' %}
+{% endwith %}
 {% else %}
-    <p>No cars available.</p>
+    <p>No cars found</p>
 {% endif %}
 {% endblock content %}

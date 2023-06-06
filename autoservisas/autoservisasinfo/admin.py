@@ -8,15 +8,15 @@ class AutomobiliaiAdmin(admin.ModelAdmin):
     list_display = ('car', 'car_model')
     list_filter = ('car', 'car_model')
     fieldsets = (
-        (_('General info'), {'fields': ('car', 'car_model')}),
+        (_('General info'), {'fields': ('car', 'car_model', 'car_image')}),
     )
 
 
 class KlientuAutomobiliaiAdmin(admin.ModelAdmin):
-    list_display = ('client_name', 'client_surname', 'car_model', 'car_number')
-    list_filter = ('client_surname', 'car_model')
+    list_display = ('user', 'car_model', 'car_number')
+    list_filter = ('user', 'car_model')
     fieldsets = (
-        (_('Client info'), {'fields': ('client_name', 'client_surname')}),
+        (_('Client info'), {'fields': ('user',)}),
         (_('Car info'), {'fields': ('car_model', 'car_number', 'vin_number')}),
     )
     search_fields = ('car_number', 'vin_number')
@@ -37,7 +37,7 @@ class UzsakymoEiluteInline(admin.TabularInline):
 
 
 class UzsakymasAdmin(admin.ModelAdmin):
-    list_display = ('order_date', 'car', 'price', 'status')
+    list_display = ('order_date', 'car', 'user', 'price', 'status')
     list_filter = ('order_date', 'car')
     list_editable = ('status', )
     fieldsets = (

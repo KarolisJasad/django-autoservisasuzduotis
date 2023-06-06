@@ -1,9 +1,14 @@
+from django.contrib.auth import get_user_model
+from datetime import date
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.db.models import Sum
+from django.utils.html import format_html
+from PIL import Image
+from tinymce.models import HTMLField
 
-# Create your models here.
+User = get_user_model()
 
 class AutomobilioModelis(models.Model):
     car = models.CharField(_("car"), max_length=100)
@@ -12,6 +17,13 @@ class AutomobilioModelis(models.Model):
     class Meta:
         verbose_name = _("automobilio Modelis")
         verbose_name_plural = _("automobiliu modeliai")
+    
+    car_image = models.ImageField(
+        _("car_image"),
+        upload_to='autoservisas/cars_images',
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return f'{self.car} - {self.car_model}'
@@ -23,17 +35,24 @@ class AutomobilioModelis(models.Model):
 class Automobilis(models.Model):
     car_number = models.CharField(_("car_number"), max_length=10, blank=False, default=None)
     vin_number = models.CharField(_("vin_number"), max_length=17, blank=False, default=None)
-    client_name = models.CharField(_("client_name"), max_length=50, db_index=True)
-    client_surname = models.CharField(_("client_surname"), max_length=50, db_index=True)
     car_model = models.ForeignKey(
         AutomobilioModelis,
         verbose_name=_("automobilio modelis"),
         on_delete=models.CASCADE,
         related_name='automobiliai',
         )
+    
+    user = models.ForeignKey(
+        User, 
+        verbose_name=_("user"), 
+        on_delete=models.CASCADE,
+        related_name='automobilis',
+        null=True,
+        blank=True,
+    )
 
     class Meta:
-        ordering = ['client_name', 'client_surname']
+        ordering = ['user']
         verbose_name = _("automobilis")
         verbose_name_plural = _("klientu automobiliai")
 
@@ -87,8 +106,18 @@ class Uzsakymas(models.Model):
         db_index=True
     )
 
+    @property
+    def is_overdue(self):
+        if self.order_date and date.today() > self.order_date:
+            return True
+        return False
+    
+    @property
+    def user(self):
+        return self.car.user
+
     def __str__(self):
-        return f'Data: {self.order_date}. Kliento info: {self.car.client_name} {self.car.client_surname} {self.car} {self.get_status_display()}'
+        return f'Data: {self.order_date}. Kliento info: {self.car.user} {self.car} {self.get_status_display()}'
 
     def get_absolute_url(self):
         return reverse("uzsakymas_detail", kwargs={"pk": self.pk})

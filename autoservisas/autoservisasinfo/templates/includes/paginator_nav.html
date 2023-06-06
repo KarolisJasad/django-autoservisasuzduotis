@@ -1,0 +1,11 @@
+<div class="paginator">
+    {% if page_obj.has_previous %}
+    <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page=1">&#9198;</a>
+    <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page={{ page_obj.previous_page_number }}">&#9194;</a>
+    {% endif %}
+    <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+    <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page={{ page_obj.next_page_number }}">&#9193;</a>
+    <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page={{ page_obj.paginator.num_pages }}">&#9197;</a>
+    {% endif %}
+</div>

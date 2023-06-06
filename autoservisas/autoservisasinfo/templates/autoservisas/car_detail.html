@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}{{ automobilis }} | {{ block.super }}{% endblock title %}
 {% block content %}
-<h1>{{ automobilis }}</h1>
-<p> Info about car(s): </p>
-<ul>
-    {% for car in automobilis_list %}
-    <li>Client's name: {{ car.client_name }} {{ car.client_surname }}</li>
-    <li>Car model: {{ car.car_model.car_model }}</li>
-    <li>Plate number: {{ car.car_number }}</li>
-    <li>VIN number: {{ car.vin_number }}</li>
-    {% endfor %}
-</ul>
-{% endblock content %}
+<div class="car-detail">
+    <h1>{{ automobilis }}</h1>
+    {% if automobilis.car_model.car_image %}
+        <img class="car-detail-image" src="{{ automobilis.car_model.car_image.url }}">
+    {% else %}
+        <img class="car-detail-image" src="{% static 'library/img/default_car.jpg' %}">
+    {% endif %}
+    <p> Info about car(s): </p>
+    <ul>
+        {% for car in automobilis_list %}
+        <li>Client's name: {{ car.user }}</li>
+        <li>Car model: {{ car.car_model.car_model }}</li>
+        <li>Plate number: {{ car.car_number }}</li>
+        <li>VIN number: {{ car.vin_number }}</li>
+        {% endfor %}
+    </ul>
+    {% endblock content %}
+</div>

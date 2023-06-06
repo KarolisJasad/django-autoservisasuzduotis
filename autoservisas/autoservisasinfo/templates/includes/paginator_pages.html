@@ -1,0 +1,11 @@
+<ul class="paginator">
+    {% for number in page_obj.paginator.page_range %}
+    <li>
+        {% if page_obj.number != number %}
+            <a href="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}page={{ number }}">{{ number }}</a>
+        {% else %}
+            <span class="current">{{ number }}</span>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
