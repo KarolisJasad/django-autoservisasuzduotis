@@ -8,7 +8,7 @@ class AutomobiliaiAdmin(admin.ModelAdmin):
     list_display = ('car', 'car_model')
     list_filter = ('car', 'car_model')
     fieldsets = (
-        (_('General info'), {'fields': ('car', 'car_model', 'car_image')}),
+        (_('General info'), {'fields': ('car', 'car_model', 'car_image', 'car_description')}),
     )
 
 

@@ -13,6 +13,7 @@ User = get_user_model()
 class AutomobilioModelis(models.Model):
     car = models.CharField(_("car"), max_length=100)
     car_model = models.CharField(_("model"), max_length=100)
+    car_description = HTMLField(_("Description"),  max_length=8000, blank=True, null=True)
     
     class Meta:
         verbose_name = _("automobilio Modelis")

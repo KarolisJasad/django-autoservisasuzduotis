@@ -16,6 +16,7 @@
         <li>Car model: {{ car.car_model.car_model }}</li>
         <li>Plate number: {{ car.car_number }}</li>
         <li>VIN number: {{ car.vin_number }}</li>
+        <li>Description: {{ car.car_model.car_description|safe }}</li>
         {% endfor %}
     </ul>
     {% endblock content %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Sign up for {{ block.super }}{% endblock title %}
+{% block content %}
+<div class="signup-container">
+    <h1>Sign up for PTU12 Autoservisas</h1>
+    <form class="signup-form" action="{{ request.path }}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" value="{{ request.POST.first_name }}">
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" value="{{ request.POST.last_name }}">
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" required value="{{ request.POST.username }}">
+            <br><small>Case sensitive, must be unique.</small>
+        </div>
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="text" name="email" required value="{{ request.POST.email }}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="password_confirm">Confirm Password</label>
+            <input type="password" name="password_confirm" required>
+        </div>
+        <p><button type="submit">Confirm Sign Up</button></p>
+        <p>If you already have an account, you can <a href="{% url 'login' %}">login</a> instead.</p>
+    </form>
+</div>
+{% endblock content %}

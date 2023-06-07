@@ -30,11 +30,18 @@
         {% else %}
             <li class="user">
                 <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+                <li><a href="{% url 'signup' %}">Sign up</a></li>
             </li>
         {% endif %}
     </ul>
 </header>
-<main>{% block content %}
+<main>
+{% if messages %}
+    {% for message in messages %}
+        <p class="box box-{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% block content %}
 {% endblock content %}</main>
 <footer><p>&copy; 2023 <a href="https://discord.gg/QAUWnqGF" target="_blank">PTU12 Team (Karolis J)</a></p></footer>
 </body>

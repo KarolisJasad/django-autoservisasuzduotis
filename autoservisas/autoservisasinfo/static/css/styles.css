@@ -1,258 +1,431 @@
 html {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+font-family: Arial, sans-serif;
+font-size: 16px;
 }
 
 form {
-    padding: 0.5rem;
+padding: 0.5rem;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+background-color: #f5f5f5;
+margin: 0;
+padding: 0;
 }
 
 header {
-    background-color: #003049;
-    color: #fff;
-    padding: 1rem;
+background-color: #003049;
+color: #fff;
+padding: 1rem;
 }
 
 header .logo {
-    font-weight: bold;
+font-weight: bold;
 }
 
 header .logo img {
-    margin-right: 0.5rem;
+margin-right: 0.5rem;
 }
 
 header ul.nav {
-    display: flex;
-    list-style: none;
-    padding-inline-start: 0;
-    margin-top: 1rem;
+display: flex;
+list-style: none;
+padding-inline-start: 0;
+margin-top: 1rem;
 }
 
 header ul.nav li {
-    margin: 0 0.25rem;
-    font-size: 1.25em;
+margin: 0 0.25rem;
+font-size: 1.25em;
 }
 
 header ul.nav a {
-    display: inline-block;
-    text-decoration: none;
-    color: #fff;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+display: inline-block;
+text-decoration: none;
+color: #fff;
+padding: 0.2rem 0.5rem;
+border-radius: 4px;
+transition: background-color 0.3s ease;
 }
 
 header ul.nav a:hover {
-    background-color: #045f9d;
+background-color: #045f9d;
 }
 
 header ul.nav li.user {
-    margin-left: auto; /* Push items to the right */
+margin-left: auto; /* Push items to the right */
 }
 
 main {
-    flex-grow: 1;
-    padding: 1rem;
+flex-grow: 1;
+padding: 1rem;
 }
 
 h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+font-size: 2rem;
+margin-bottom: 1rem;
 }
 
 p {
-    margin-bottom: 0.5rem;
+margin-bottom: 0.5rem;
 }
 
 footer {
-    background-color: #003049;
-    color: #fff;
-    padding: 1rem;
-    text-align: center;
+background-color: #003049;
+color: #fff;
+padding: 1rem;
+text-align: center;
 }
 
 footer a {
-    color: #fff;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-    border-radius: 4px;
+color: #fff;
+text-decoration: none;
+display: inline-block;
+transition: background-color 0.3s ease;
+border-radius: 4px;
 }
 
 footer a:hover {
-    background-color: #045f9d;
+background-color: #045f9d;
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
+max-width: 800px;
+margin: 0 auto;
 }
 
 .box {
-    background-color: #fff;
-    padding: 1rem;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+background-color: #fff;
+padding: 1rem;
+border-radius: 4px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .box-title {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+font-size: 1.5rem;
+margin-bottom: 0.5rem;
 }
 
 .box-content {
-    margin-bottom: 0.5rem;
+margin-bottom: 0.5rem;
 }
 
 .box-content li {
-    margin-bottom: 0.25rem;
-    margin-left: 1rem;
+margin-bottom: 0.25rem;
+margin-left: 1rem;
 }
 
 ul.paginator {
-    list-style: none;
-    padding-inline-start: 0.5rem;
+list-style: none;
+padding-inline-start: 0.5rem;
 }
 .paginator {
-    display: flex;
-    flex-direction: row;
-    padding: 0.5rem;
-    gap: 0.5rem;
+display: flex;
+flex-direction: row;
+padding: 0.5rem;
+gap: 0.5rem;
 }
 
 .paginator a, .paginator .current {
-    text-decoration: none;
-    padding: 0 0.5rem;
-    border: 1px solid #aacc99;
+text-decoration: none;
+padding: 0 0.5rem;
+border: 1px solid #aacc99;
 }
 
 .car-list {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+list-style: none;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
 }
 
 .car-list li {
-    width: 33.33%;
-    padding: 10px;
-    box-sizing: border-box;
-    text-align: center;
+width: 33.33%;
+padding: 10px;
+box-sizing: border-box;
+text-align: center;
 }
 
 .car-image {
-    max-width: 100%;
-    height: 500px;
-    object-fit: cover;
-    border-radius: 5px;
+max-width: 100%;
+height: 500px;
+object-fit: cover;
+border-radius: 5px;
 }
 
 .car-item {
-    position: relative;
+position: relative;
 }
 
 .car-item p {
-    margin-top: 10px;
-    font-weight: bold;
+margin-top: 10px;
+font-weight: bold;
 }
 
 .car-item a {
-    color: #333;
-    text-decoration: none;
+color: #333;
+text-decoration: none;
 }
 
 .car-item a:hover {
-    color: #ff0000;
+color: #ff0000;
 }
 
 .car-detail {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+max-width: 500px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f5f5f5;
+border: 1px solid #ccc;
+border-radius: 5px;
 }
 
 .car-detail h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+font-size: 24px;
+margin-bottom: 10px;
 }
 
 .car-detail-image {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: 5px;
+max-width: 100%;
+height: auto;
+margin-bottom: 20px;
+border-radius: 5px;
 }
 
 .car-detail ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+list-style: none;
+padding: 0;
+margin: 0;
 }
 
 .car-detail li {
-    margin-bottom: 10px;
+margin-bottom: 10px;
 }
 
 .search-container {
-    margin-bottom: 20px;
+margin-bottom: 20px;
 }
 
 .order-list {
-    list-style: none;
-    padding: 0.2rem;
-    margin: 0.2rem;
-    
+list-style: none;
+padding: 0.2rem;
+margin: 0.2rem;
+
 }
 
 .order-item {
-    margin-bottom: 0.1rem;
-    border: 1px solid black;
+margin-bottom: 0.1rem;
+border: 1px solid black;
 }
 
 .no-orders-message {
-    color: #888;
+color: #888;
 }
 
 .pagination-container {
-    margin-top: 20px;
+margin-top: 20px;
 }
 
 .order-block {
-    display: inline-block;
-    width: 30%;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+display: inline-block;
+width: 30%;
+margin: 10px;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
 }
 
 .order-block ul {
-    margin: 0;
-    padding: 0;
+margin: 0;
+padding: 0;
 }
 
 .order-block ul li {
-    list-style: none;
-    margin-bottom: 5px;
+list-style: none;
+margin-bottom: 5px;
 }
 
 .overdue {
-    background-color: #aa0000;
+background-color: #aa0000;
 }
 
 .overdue-label {
-    color: red;
+color: red;
+font-weight: bold;
+}
+
+.box {
+padding: 0.2rem 0.5rem;
+margin: 0.5rem;
+border: 1px solid #999999;
+border-radius: 0.5rem;
+}
+.box-info {
+background-color: #99ccff;
+}
+.box-warning {
+background-color: #ffcc99;
+}
+.box-error {
+background-color: #ff9999;
+}
+.box-success {
+background-color: #c0ffb0;
+}
+.box-debug {
+background-color: #eeeeee;
+}
+
+.signup-container {
+max-width: 400px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f7f7f7;
+border: 1px solid #ddd;
+border-radius: 5px;
+}
+
+.signup-form .form-group {
+margin-bottom: 15px;
+}
+
+.signup-form label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="password"] {
+width: 100%;
+padding: 8px;
+font-size: 14px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+.signup-form small {
+font-size: 12px;
+color: #777;
+}
+
+.signup-form button[type="submit"] {
+display: block;
+width: 100%;
+padding: 10px;
+font-size: 16px;
+color: #fff;
+background-color: #007bff;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.signup-form p {
+margin-bottom: 10px;
+}
+
+.signup-form a {
+color: #007bff;
+text-decoration: none;
+}
+
+.signup-form a:hover {
+text-decoration: underline;
+}
+
+.login-container {
+max-width: 400px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f9f9f9;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
+
+.login-container label{
+    display: block;
+    margin-bottom: 5px;
     font-weight: bold;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
+
+.login-form button[type="submit"] {
+background-color: #4CAF50;
+color: #fff;
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.login-form button[type="submit"]:hover {
+background-color: #45a049;
+}
+
+.login-form p {
+margin-bottom: 10px;
+}
+
+.login-form a {
+color: red
+}
+
+.box {
+padding: 10px;
+border-radius: 4px;
+}
+
+.box-error {
+background-color: #f8d7da;
+color: #721c24;
+border: 1px solid #f5c6cb;
+}
+
+.password-reset-container {
+max-width: 400px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f9f9f9;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
+
+.password-reset-form input[type="text"] {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
+
+.password-reset-form button[type="submit"] {
+background-color: #4CAF50;
+color: #fff;
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.password-reset-form button[type="submit"]:hover {
+background-color: #45a049;
+}
+
+.password-reset-form p {
+margin-bottom: 10px;
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
 }
