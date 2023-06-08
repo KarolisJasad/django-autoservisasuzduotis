@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}Orders{{ block.super }}{% endblock title %}
 {% block content %}
-    <p>Order(s) info:</p>
+{% if user == order.user or user.is_staff or user.is_superuser %}
+    <h1>{{ automobilis }} <a href="{% url 'add_service' pk=order.pk %}">Add Service</a> </h1>
+{% else %}
+    <h1>{{ automobilis }}</h1>
+{% endif %}
     <div class="order-container">
         {% if uzsakymas.uzsakymoEilutes.all %}
             {% for uzsakymo_eilute in uzsakymas.uzsakymoEilutes.all %}
                 <div class="order-block {% if uzsakymo_eilute.uzsakymas.is_overdue %}overdue{% endif %}">
                     <ul>
-                        <li>Service: {{ object.paslauga.name }}</li>
+                        <li>Service: {{ uzsakymo_eilute.paslauga.name }}</li>
                         <li>Client's name: {{ uzsakymo_eilute.uzsakymas.car.user }}</li>
                         <li>Order date: {{ uzsakymo_eilute.uzsakymas.order_date }}</li>
                         <li>Order count: {{ uzsakymo_eilute.count }}</li>

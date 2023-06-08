@@ -1,8 +1,10 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, reverse
+from datetime import date, timedelta
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -10,8 +12,14 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.views import generic
 from django.db.models import Sum
-from . forms import OrderCommentForm
+from django.views.generic import CreateView
+from . forms import OrderCommentForm, OrderReserveForm, ServiceForm
 from . models import AutomobilioModelis, Automobilis, Uzsakymas, Paslauga, UzsakymoEilute
+from django.views import View
+from django.views.generic.edit import FormView
+from django.shortcuts import redirect
+
+
 
 # Create your views here.
 
@@ -79,10 +87,7 @@ class OrderDetailView(generic.edit.FormMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        selected_order = self.object
-        related_orders = selected_order.uzsakymoEilutes.all()
-        total_price = UzsakymoEilute.calculate_total_price(related_orders)
-        context['total_price'] = total_price
+        context['order'] = self.get_object()
         return context
     
     form_class = OrderCommentForm
@@ -123,8 +128,48 @@ class UserOrdersListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        uzsakymai = context['object_list']
-        total_price = sum(uzsakymas.uzsakymoEilutes.aggregate(total_price=Sum('total_price')).get('total_price', 0) for uzsakymas in uzsakymai)
+        orders = self.get_queryset()
+        total_price = sum(order.price or 0 for order in orders)
         context['total_price'] = total_price
         return context
 
+
+class OrderReservationCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Uzsakymas
+    form_class = OrderReserveForm
+    template_name = 'autoservisas/order_reservation_form.html'
+    success_url = reverse_lazy('user_orders')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['car'] = self.car
+        return context
+
+    def get_initial(self):
+        car_id = self.kwargs['pk']
+        self.car = get_object_or_404(Automobilis, pk=car_id)
+        initial = super().get_initial()
+        initial['car'] = self.car
+        initial['order_date'] = date.today() + timedelta(days=14)
+        initial['status'] = 0
+        return initial
+
+    def form_valid(self, form):
+        form.instance.car = self.car
+        form.instance.status = 0
+        return super().form_valid(form)
+
+class AddServiceView(FormView):
+    form_class = ServiceForm
+    template_name = 'autoservisas/add_service.html'
+    success_url = reverse_lazy('autoservisas/user_orders')
+
+    def form_valid(self, form):
+        uzsakymas = get_object_or_404(Uzsakymas, pk=self.kwargs['pk'])
+        service = form.cleaned_data['service']
+        count = form.cleaned_data['count']
+        total_price = service.price * count  # Calculate the sum based on the selected service and count
+
+        uzsakymo_eilute = UzsakymoEilute.objects.create(uzsakymas=uzsakymas, paslauga=service, count=count, total_price=total_price)
+
+        return redirect('order_detail', pk=uzsakymas.pk)

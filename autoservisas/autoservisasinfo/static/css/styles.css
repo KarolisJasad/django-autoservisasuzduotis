@@ -445,3 +445,7 @@ img.user-avatar {
     max-height: 1rem;
     border-radius: 0.5rem;
 }
+
+.float-right {
+    float: right;
+}

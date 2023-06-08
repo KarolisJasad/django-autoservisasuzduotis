@@ -81,7 +81,7 @@ class Paslauga(models.Model):
 
 class Uzsakymas(models.Model):
     order_date = models.DateField(_("order_date"), auto_now=False, auto_now_add=False)
-    price = models.FloatField(_("price"))
+    price = models.FloatField(_("price"), default=0)
     car = models.ForeignKey(
         Automobilis,
         verbose_name=_("automobilis"),
@@ -122,7 +122,7 @@ class Uzsakymas(models.Model):
 
     def get_absolute_url(self):
         return reverse("uzsakymas_detail", kwargs={"pk": self.pk})
-
+    
 
 class UzsakymoEilute(models.Model):
     paslauga = models.ForeignKey(
@@ -148,8 +148,12 @@ class UzsakymoEilute(models.Model):
 
     def save(self, *args, **kwargs):
         if self.total_price == 0:
-            self.price = self.paslauga.price
+            self.price = self.paslauga.price if self.paslauga.price is not None else 0
+            self.count = self.count if self.count is not None else 0
             self.total_price = self.price * self.count
+        user = get_user_model().objects.get(pk=self.uzsakymas.user.pk)
+        self.user = user
+        
         super().save(*args, **kwargs)
     
     @staticmethod

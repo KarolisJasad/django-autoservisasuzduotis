@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Add Service to Order</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.service.label_tag }}
+    {{ form.service }}
+    <br>
+    {{ form.count.label_tag }}
+    {{ form.count }}
+    <br>
+    <input type="submit" value="Add Service">
+  </form>
+{% endblock %}

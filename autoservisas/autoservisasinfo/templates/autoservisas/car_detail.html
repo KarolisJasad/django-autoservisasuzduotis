@@ -3,7 +3,11 @@
 {% block title %}{{ automobilis }} | {{ block.super }}{% endblock title %}
 {% block content %}
 <div class="car-detail">
-    <h1>{{ automobilis }}</h1>
+    {% if user == automobilis.user or user.is_staff or user.is_superuser %}
+    <h1>{{ automobilis }} <a class="float-right" href="order_reservation_form">Reserve</a></h1>
+    {% else %}
+        <h1>{{ automobilis }}</h1>
+    {% endif %}
     {% if automobilis.car_model.car_image %}
         <img class="car-detail-image" src="{{ automobilis.car_model.car_image.url }}">
     {% else %}
