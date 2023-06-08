@@ -27,3 +27,4 @@ class OrderReserveForm(forms.ModelForm):
 class ServiceForm(forms.Form):
     service = forms.ModelChoiceField(queryset=models.Paslauga.objects.all(), label='Service')
     count = forms.IntegerField(label='Count')
+    
