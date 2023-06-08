@@ -9,6 +9,8 @@
             {% for order in order_list %}
             {% if order.is_overdue %}
                 <li class="order-item"><a href="{% url 'order_detail' pk=order.pk %}">{{ order }}</a> <span class="overdue-label">OVERDUE</span></li>
+            {% else %}
+            <li class="order-item"><a href="{% url 'order_detail' pk=order.pk %}">{{ order }}</a></li>
             {% endif %}
             {% endfor %}
         </ul>
