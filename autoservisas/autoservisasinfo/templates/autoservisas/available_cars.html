@@ -2,32 +2,29 @@
 {% load static %}
 {% block title %}Cars in {{ block.super }}{% endblock title %}
 {% block content %}
-<h1>Cars</h1>
-{% include 'includes/search.html' %}
-{% if automobilis_list %}
-<ul class="car-list">
-    {% for car in automobilis_list %}
-    {% if not cars%}
-            <li>
-            <a href="{% url 'car_detail' car.pk %}">
-                <div class="car-item">
-                    {% if car.car_model.car_image %}
-                        <img class="car-image" src="{{ car.car_model.car_image.url }}">
-                        <p><a href="{% url 'car_detail' pk=car.pk %}">{{ car }}</a></p>
-                    {% else %}
-                        <img class="car-image" src="{% static 'library/img/default_car.jpg' %}">
-                        <p><a href="{% url 'car_detail' pk=car.pk %}">{{ car }}</a></p>
-                    {% endif %}
-                </div>
-            </a> 
-        </li>
+    <h1>Cars</h1>
+    {% include 'includes/search.html' %}
+    {% if automobilis_list %}
+        <ul class="car-list">
+            {% for car in automobilis_list %}
+                {% if not car.user %}
+                    <li>
+                        <a href="{% url 'car_detail' car.pk %}">
+                            <div class="car-item">
+                                {% if car.car_model.car_image %}
+                                    <img class="car-image" src="{{ car.car_model.car_image.url }}">
+                                {% else %}
+                                    <img class="car-image" src="{% static 'library/img/default_car.jpg' %}">
+                                {% endif %}
+                                <p><a href="{% url 'car_detail' pk=car.pk %}">{{ car }}</a></p>
+                            </div>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% include 'includes/paginator_pages.html' with page_obj=automobilis_list %}
+    {% else %}
+        <p>No cars found</p>
     {% endif %}
-    {% endfor %}
-</ul>
-{% with automobilis_list as page_obj %}
-    {% include 'includes/paginator_pages.html' %}
-{% endwith %}
-{% else %}
-    <p>No cars found</p>
-{% endif %}
 {% endblock content %}

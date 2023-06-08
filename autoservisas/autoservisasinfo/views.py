@@ -58,20 +58,18 @@ def car_list(request):
     })
 
 def available_cars(request):
-    qs = Automobilis.objects
     query = request.GET.get('query')
+    qs = Automobilis.objects.all()
     if query:
         qs = qs.filter(
             Q(car_model__car_model__icontains=query) |
-            Q(car_model__car__icontains=query) 
+            Q(car_model__car__icontains=query)
         )
-    else:
-        qs = qs.filter(Q(user__isnull=True) | Q(user=None))  # Include cars without users
+    qs = qs.filter(user__isnull=True)  # Include cars with no associated user
     paginator = Paginator(qs, 6)
-    car_list = paginator.get_page(request.GET.get('page'))
-    return render(request, 'autoservisas/available_cars.html', {
-        'automobilis_list': car_list
-    })
+    page_number = request.GET.get('page')
+    available_car_list = paginator.get_page(page_number)
+    return render(request, 'autoservisas/available_cars.html', {'automobilis_list': available_car_list})
 
 def car_detail(request, pk):
     automobilis = get_object_or_404(Automobilis, pk=pk)
