@@ -429,3 +429,19 @@ display: block;
 margin-bottom: 5px;
 font-weight: bold;
 }
+
+label[for='id_content'] {
+    display: none;
+}
+
+img.user-profile-picture {
+    max-width: 20vw;
+    padding: 0 0.5rem;
+    border-radius: 1rem;
+    float: left;
+}
+
+img.user-avatar {
+    max-height: 1rem;
+    border-radius: 0.5rem;
+}

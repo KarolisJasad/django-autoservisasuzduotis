@@ -1,12 +1,16 @@
-from typing import Any
+from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, reverse
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.views import generic
 from django.db.models import Sum
+from . forms import OrderCommentForm
 from . models import AutomobilioModelis, Automobilis, Uzsakymas, Paslauga, UzsakymoEilute
 
 # Create your views here.
@@ -63,14 +67,13 @@ class OrderListView(generic.ListView):
         if query:
             qs = qs.filter(
                 Q(order_date__contains=query) |
-                Q(car__client_name__icontains=query) |
-                Q(car__client_surname__icontains=query) |
+                Q(car__user__username__icontains=query) |
                 Q(car__car_number__icontains=query) |
                 Q(car__car_model__car_model__icontains=query)
             )
         return qs
 
-class OrderDetailView(generic.DetailView):
+class OrderDetailView(generic.edit.FormMixin, generic.DetailView):
     model = Uzsakymas
     template_name = 'autoservisas/order_detail.html'
 
@@ -81,6 +84,32 @@ class OrderDetailView(generic.DetailView):
         total_price = UzsakymoEilute.calculate_total_price(related_orders)
         context['total_price'] = total_price
         return context
+    
+    form_class = OrderCommentForm
+
+    def get_initial(self) -> Dict[str, Any]:
+        initial = super().get_initial()
+        initial['order'] = self.get_object()
+        initial['commentator'] = self.request.user
+        return initial
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form: Any) -> HttpResponse:
+        form.instance.order = self.get_object()
+        form.instance.commentator = self.request.user
+        form.save()
+        messages.success(self.request, _('Comment added!'))
+        return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        return reverse('order_detail', kwargs={'pk':self.get_object().pk})
 
 class UserOrdersListView(LoginRequiredMixin, generic.ListView):
     model = Uzsakymas

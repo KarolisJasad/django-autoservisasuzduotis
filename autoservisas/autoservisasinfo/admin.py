@@ -51,6 +51,9 @@ class UzsakymoEiluteAdmin(admin.ModelAdmin):
     fieldsets = (
         (_('Uzsakymo eilute'), {'fields': ('paslauga', 'uzsakymas', 'count', 'total_price')}),
     )
+
+class OrderCommentAdmin(admin.ModelAdmin):
+    list_display = ('commented_at', 'order', 'commentator', 'content')
     
     
 admin.site.register(models.AutomobilioModelis, AutomobiliaiAdmin)
@@ -58,3 +61,4 @@ admin.site.register(models.Automobilis, KlientuAutomobiliaiAdmin)
 admin.site.register(models.Uzsakymas, UzsakymasAdmin)
 admin.site.register(models.Paslauga, PaslaugaAdmin)
 admin.site.register(models.UzsakymoEilute, UzsakymoEiluteAdmin)
+admin.site.register(models.OrderComment, OrderCommentAdmin)

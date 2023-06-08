@@ -164,3 +164,34 @@ class UzsakymoEilute(models.Model):
         return reverse("uzsakymoEilute_detail", kwargs={"pk": self.pk})
 
 
+class OrderComment(models.Model):
+    order = models.ForeignKey(
+        Uzsakymas,
+        verbose_name=_("order"),
+        on_delete=models.CASCADE,
+        related_name='comments',
+        )
+    
+    commentator = models.ForeignKey(
+        User,
+        verbose_name=_("commentator"),
+        on_delete=models.SET_NULL,
+        related_name='order_comments',
+        null=True,
+        blank=True,
+        )
+    
+    commented_at = models.DateTimeField(_("Commented"), auto_now_add=True)
+    content = models.TextField(_("content"), max_length=4000)
+
+    class Meta:
+        ordering = ["-commented_at"]
+        verbose_name = _("order comment")
+        verbose_name_plural = _("order comments")
+
+    def __str__(self):
+        return f"{self.commented_at}: {self.commentator}"
+
+    def get_absolute_url(self):
+        return reverse("ordercomment_detail", kwargs={"pk": self.pk})
+

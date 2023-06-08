@@ -22,4 +22,32 @@
         {% endif %}
     </div>
     <p>Total price of all orders: {{ total_price }}€</p>
+<h2>Comments</h2>
+{% if user.is_authenticated %}
+    {% if uzsakymas.comments.count > 0 %}
+        <ul>
+            {% for comment in uzsakymas.comments.all %}
+            <li>{{ comment.commented_at }} by <a href="{% url 'profile' comment.commentator.id %}">
+                    {% if comment.commentator.profile.picture %}
+                        <img src="{{ comment.commentator.profile.picture.url }}" class="user-avatar">
+                    {% endif %}
+                    {{ comment.commentator }}</a><br> 
+                    {{ comment.content }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if user == uzsakymas.user or user.is_staff or user.is_superuser %}
+        <form method="post" action="{{ request.path }}">
+            <h3>Leave your comment</h3>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Post</button>
+        </form>
+    {% else %}
+        <p class="box box-info">Only the person whose order it is, staff, or superuser can leave a comment.</p>
+    {% endif %}
+{% else %}
+    <p class="box box-info">If you want to post a comment, you have to <a href="{% url 'login' %}">login</a> or <a href="{% url 'signup' %}">sign up</a>.</p>
+{% endif %}
 {% endblock content %}
