@@ -19,15 +19,15 @@ class Profile(models.Model):
         verbose_name = _("profile")
         verbose_name_plural = _("profiles")
 
-    def save(self, *args, **kwargs) -> None:
-        super().save(*args, **kwargs)
-        pic = Image.open(self.picture.path)
-        if self.picture:
-            pic = Image.open(self.picture.path)
-            if pic.width > 300 or pic.height > 300:
-                new_size = (300, 300)
-                pic.thumbnail(new_size)
-                pic.save(self.picture.path)
+    # def save(self, *args, **kwargs) -> None:
+    #     super().save(*args, **kwargs)
+    #     pic = Image.open(self.picture.path)
+    #     if self.picture:
+    #         pic = Image.open(self.picture.path)
+    #         if pic.width > 300 or pic.height > 300:
+    #             new_size = (300, 300)
+    #             pic.thumbnail(new_size)
+    #             pic.save(self.picture.path)
 
     def __str__(self):
         return str(self.user)

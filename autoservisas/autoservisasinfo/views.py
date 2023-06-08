@@ -42,18 +42,34 @@ def index(request):
     return render(request, 'autoservisas/index.html', context)
 
 def car_list(request):
-    qs = AutomobilioModelis.objects
+    qs = Automobilis.objects
     query = request.GET.get('query')
     if query:
         qs = qs.filter(
-            Q(car__istartswith=query) |
-            Q(car_model__icontains=query)
+            Q(car_model__car_model__icontains=query) |
+            Q(car_model__car__icontains=query) 
         )
     else:
-        qs = qs.all()
+        qs = qs.filter(user__isnull=False)
     paginator = Paginator(qs, 6)
     car_list = paginator.get_page(request.GET.get('page'))
     return render(request, 'autoservisas/cars.html', {
+        'automobilis_list': car_list
+    })
+
+def available_cars(request):
+    qs = Automobilis.objects
+    query = request.GET.get('query')
+    if query:
+        qs = qs.filter(
+            Q(car_model__car_model__icontains=query) |
+            Q(car_model__car__icontains=query) 
+        )
+    else:
+        qs = qs.filter(Q(user__isnull=True) | Q(user=None))  # Include cars without users
+    paginator = Paginator(qs, 6)
+    car_list = paginator.get_page(request.GET.get('page'))
+    return render(request, 'autoservisas/available_cars.html', {
         'automobilis_list': car_list
     })
 
@@ -171,5 +187,6 @@ class AddServiceView(FormView):
         total_price = service.price * count  # Calculate the sum based on the selected service and count
 
         uzsakymo_eilute = UzsakymoEilute.objects.create(uzsakymas=uzsakymas, paslauga=service, count=count, total_price=total_price)
-
+        uzsakymas.status = 1
+        uzsakymas.save()
         return redirect('order_detail', pk=uzsakymas.pk)

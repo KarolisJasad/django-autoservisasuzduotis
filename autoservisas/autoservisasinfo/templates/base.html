@@ -14,6 +14,7 @@
         <li class="logo">&#128663; PTU12 Autoservisas</li>
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="{% url 'cars' %}">Cars</a></li>
+        <li><a href="{% url 'available_cars' %}">Available Cars</a></li>
         <li><a href="{% url 'order_list' %}">Orders</a></li>
         {% if user.is_authenticated %}
             {% if not user.is_staff and not user.is_superuser %}
