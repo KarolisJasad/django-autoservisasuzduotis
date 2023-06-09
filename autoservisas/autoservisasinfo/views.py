@@ -13,12 +13,12 @@ from django.core.paginator import Paginator
 from django.views import generic
 from django.db.models import Sum
 from django.views.generic import CreateView
-from . forms import OrderCommentForm, OrderReserveForm, ServiceForm
+from . forms import CarUpdateForm, OrderCommentForm, OrderReserveForm, ServiceForm, CarAssignmentForm
 from . models import AutomobilioModelis, Automobilis, Uzsakymas, Paslauga, UzsakymoEilute
 from django.views import View
 from django.views.generic.edit import FormView
 from django.shortcuts import redirect
-
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -71,11 +71,42 @@ def available_cars(request):
     available_car_list = paginator.get_page(page_number)
     return render(request, 'autoservisas/available_cars.html', {'automobilis_list': available_car_list})
 
+def my_cars(request):
+    query = request.GET.get('query')
+    qs = Automobilis.objects.all()
+    if query:
+        qs = qs.filter(
+            car_model__car_model__icontains=query
+        )
+    qs = qs.filter(user=request.user)  # Include cars associated with the logged-in user
+    paginator = Paginator(qs, 6)
+    page_number = request.GET.get('page')
+    automobilis_list = paginator.get_page(page_number)
+    return render(request, 'autoservisas/my_cars.html', {'automobilis_list': automobilis_list})
+
 def car_detail(request, pk):
     automobilis = get_object_or_404(Automobilis, pk=pk)
     automobilis_list = Automobilis.objects.filter(car_model=automobilis.car_model)
     return render(request, 'autoservisas/car_detail.html', {'automobilis': automobilis, 'automobilis_list': automobilis_list})
 
+@login_required
+def assign_car(request):
+    available_cars = Automobilis.objects.filter(user=None)
+    
+    if request.method == 'POST':
+        selected_car_id = request.POST.get('car')
+        try:
+            selected_car = available_cars.get(pk=selected_car_id)
+        except Automobilis.DoesNotExist:
+            selected_car = None
+        
+        if selected_car:
+            selected_car.user = request.user
+            selected_car.save()
+        
+        return redirect('my_cars')
+    
+    return render(request, 'autoservisas/assign_car.html', {'available_cars': available_cars})
 
 class OrderListView(generic.ListView):
     model = Uzsakymas
@@ -182,9 +213,45 @@ class AddServiceView(FormView):
         uzsakymas = get_object_or_404(Uzsakymas, pk=self.kwargs['pk'])
         service = form.cleaned_data['service']
         count = form.cleaned_data['count']
-        total_price = service.price * count  # Calculate the sum based on the selected service and count
+        total_price = service.price * count 
 
         uzsakymo_eilute = UzsakymoEilute.objects.create(uzsakymas=uzsakymas, paslauga=service, count=count, total_price=total_price)
         uzsakymas.status = 1
         uzsakymas.save()
         return redirect('order_detail', pk=uzsakymas.pk)
+
+class CarUpdateView(View):
+    def get(self, request, pk):
+        automobilis = get_object_or_404(Automobilis, pk=pk)
+        automobilis_list = Automobilis.objects.filter(user=automobilis.user)
+        form = CarUpdateForm(instance=automobilis.car_model)
+
+        context = {
+            'automobilis': automobilis,
+            'automobilis_list': automobilis_list,
+            'form': form,
+        }
+        return render(request, 'autoservisas/car_update.html', context)
+
+    def post(self, request, pk):
+        automobilis = get_object_or_404(Automobilis, pk=pk)
+        automobilis_list = Automobilis.objects.filter(user=automobilis.user)
+        form = CarUpdateForm(request.POST, request.FILES, instance=automobilis.car_model)
+
+        if form.is_valid():
+            form.save()
+            return redirect('car_detail', pk=pk)
+
+        context = {
+            'automobilis': automobilis,
+            'automobilis_list': automobilis_list,
+            'form': form,
+        }
+        return render(request, 'autoservisas/car_update.html', context)
+class OrderDeleteView(View):
+    def post(self, request, pk):
+        order = get_object_or_404(Uzsakymas, pk=pk)
+        if order.status == 0:
+            order.delete()
+            return redirect('user_orders')
+        return redirect('user_orders')  

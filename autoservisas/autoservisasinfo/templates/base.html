@@ -13,20 +13,22 @@
     <ul class="nav">
         <li class="logo">&#128663; PTU12 Autoservisas</li>
         <li><a href="{% url 'index' %}">Home</a></li>
-        <li><a href="{% url 'cars' %}">Cars</a></li>
+        <li><a href="{% url 'cars' %}">All Cars</a></li>
         <li><a href="{% url 'available_cars' %}">Available Cars</a></li>
-        <li><a href="{% url 'order_list' %}">Orders</a></li>
         {% if user.is_authenticated %}
             {% if not user.is_staff and not user.is_superuser %}
                 <li class="user"><a href="{% url 'user_orders' %}">My Orders</a></li>
+                <li><a href="{% url 'my_cars' %}">My Cars</a></li>
+                <li><a href="{% url 'assign_car' %}">Assign a Car</a></li>
                 <a href="{% url 'profile' %}">&#128100; {{ user.get_username }}</a>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             {% endif %}
             {% if user.is_staff or user.is_superuser %}
-                <li class="user">
+                <li class="user"></li>
                     <a href="{% url 'profile' %}">&#128100; {{ user.get_username }}</a>
-                </li>
                 <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                <li><a href="{% url 'my_cars' %}">My Cars</a></li>
+                <li><a href="{% url 'order_list' %}">All Orders</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             {% endif %}
         {% else %}

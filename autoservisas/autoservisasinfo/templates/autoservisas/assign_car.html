@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Assign Car{% endblock title %}
+
+{% block content %}
+  <h1>Assign Car</h1>
+  
+  <form method="post" action="{% url 'assign_car' %}">
+    {% csrf_token %}
+    <label for="car">Select a car:</label>
+    <select name="car" id="car">
+      {% for car in available_cars %}
+        <option value="{{ car.pk }}">{{ car.car_model.car }} {{ car.car_model.car_model }} (Car Number: {{ car.car_number }}.Vin Number: {{ car.vin_number }})</option>
+      {% endfor %}
+    </select>
+    <br><br>
+    <input type="submit" value="Assign Car">
+  </form>
+{% endblock content %}

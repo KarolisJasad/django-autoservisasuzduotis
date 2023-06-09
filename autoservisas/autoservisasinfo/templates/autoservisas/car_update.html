@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Update Car | {{ block.super }}{% endblock title %}
+
+{% block content %}
+<div class="car-update">
+    <h1>Update Car - {{ automobilis }}</h1>
+    {% if automobilis.car_model.car_image %}
+        <img class="car-update-image" src="{{ automobilis.car_model.car_image.url }}">
+    {% else %}
+        <img class="car-update-image" src="{% static 'library/img/default_car.jpg' %}">
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Update</button>
+    </form>
+</div>
+{% endblock content %}

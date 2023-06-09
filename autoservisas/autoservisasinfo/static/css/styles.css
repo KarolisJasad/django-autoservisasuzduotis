@@ -449,3 +449,18 @@ img.user-avatar {
 .float-right {
     float: right;
 }
+
+.car-update-image {
+    max-width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.delete-button {
+    background-color: rgb(185, 37, 37);
+}
+
+.delete-button:hover {
+    background-color: red;
+}

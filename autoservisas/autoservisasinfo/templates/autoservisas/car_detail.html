@@ -4,7 +4,7 @@
 {% block content %}
 <div class="car-detail">
     {% if user == automobilis.user or user.is_staff or user.is_superuser %}
-    <h1>{{ automobilis }} <a class="float-right" href="order_reservation_form">Reserve</a></h1>
+    <h1>{{ automobilis }} <a class="float-right" href="order_reservation_form">Order</a></h1>
     {% else %}
         <h1>{{ automobilis }}</h1>
     {% endif %}
@@ -23,5 +23,9 @@
         <li>Description: {{ car.car_model.car_description|safe }}</li>
         {% endfor %}
     </ul>
-    {% endblock content %}
+
+    {% if user == automobilis.user or user.is_staff or user.is_superuser %}
+        <a class="float-right" href="{% url 'car_update' pk=automobilis.pk %}" >Update information</a>
+    {% endif %}
 </div>
+{% endblock content %}

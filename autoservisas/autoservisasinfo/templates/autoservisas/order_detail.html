@@ -2,7 +2,9 @@
 {% block title %}Orders{{ block.super }}{% endblock title %}
 {% block content %}
 {% if user == order.user or user.is_staff or user.is_superuser %}
+{% if user.is_staff or user.is_superuser %}
     <h1>{{ automobilis }} <a href="{% url 'add_service' pk=order.pk %}">Add Service</a> </h1>
+{% endif %}
 {% else %}
     <h1>{{ automobilis }}</h1>
 {% endif %}

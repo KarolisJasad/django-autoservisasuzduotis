@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
 {% block title %} Orders {{ block.super }}{% endblock title %}
 {% block content %}
-<h1>Orders</h1>
-{% include 'includes/search.html' %}
-<div class="order-list-container">
-    {% if object_list %}
-        <ul class="order-list">
-            {% for order in object_list %}
-                <li class="order-item">
-                    <a href="{% url 'order_detail' pk=order.pk %}">
-                        {{ order }}
-                        {% if order.is_overdue %}
-                            <span class="overdue-label">OVERDUE</span>
+    <h1>Orders</h1>
+    {% include 'includes/search.html' %}
+    <div class="order-list-container">
+        {% if object_list %}
+            <ul class="order-list">
+                {% for order in object_list %}
+                    <li class="order-item">
+                        <div class="order-info">
+                            <a href="{% url 'order_detail' pk=order.pk %}">
+                                {{ order }}
+                                {% if order.is_overdue %}
+                                    <span class="overdue-label">OVERDUE</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                        {% if order.status == 0 %}
+                            <form method="POST" action="{% url 'order_delete' pk=order.pk %}" class="delete-form">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-button">Remove order</button>
+                            </form>
                         {% endif %}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No orders available.</p>
-    {% endif %}
-</div>
-<div class="pagination-container">
-    {% include 'includes/paginator_pages.html' %}
-</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No orders available.</p>
+        {% endif %}
+    </div>
+    <div class="pagination-container">
+        {% include 'includes/paginator_pages.html' %}
+    </div>
 {% endblock content %}
